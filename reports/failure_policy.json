@@ -1,0 +1,7 @@
+{
+  "failed_step": 7,
+  "total_steps": 10,
+  "policy": "rollback",
+  "rationale": "Rollback is the optimal failure policy for hostile code autograders because untrusted student submissions frequently corrupt file systems, mutate global environment variables, and delete shared grading dependencies. Reverting to a clean microVM snapshot guarantees deterministic idempotency, eliminates inter-test contamination, ensures strict grading fairness across runs, and prevents resource leaks without incurring the cold-boot latency of creating brand new VM instances.",
+  "trace_path": "reports/failure_trace.jsonl"
+}

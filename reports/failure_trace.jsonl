@@ -1,0 +1,10 @@
+{"step": 1, "action": "initialize_sandbox", "status": "success", "details": "Sandbox booted in 0.35s"}
+{"step": 2, "action": "create_snapshot", "status": "success", "details": "Base pristine snapshot snap-base captured"}
+{"step": 3, "action": "inject_submission", "status": "success", "details": "Extracted student submission archive"}
+{"step": 4, "action": "install_dependencies", "status": "success", "details": "Installed requirements in isolated virtual environment"}
+{"step": 5, "action": "run_unit_tests", "status": "success", "details": "Unit tests 1-4 passed"}
+{"step": 6, "action": "run_stress_tests", "status": "success", "details": "Stress tests completed in 1.2s"}
+{"step": 7, "action": "execute_adversarial_suite", "status": "failed", "error": "Segmentation fault & memory corruption caused by hostile submission"}
+{"event": "policy_applied", "policy": "rollback"}
+{"step": 9, "action": "verify_restoration", "status": "success", "details": "Restored to snap-base; filesystem integrity verified"}
+{"step": 10, "action": "finalize_grade", "status": "completed", "details": "Safe grade generated and recorded in ledger"}

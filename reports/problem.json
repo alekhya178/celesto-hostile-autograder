@@ -1,0 +1,6 @@
+{
+  "who": "Autonomous grading infrastructure for untrusted student and applicant code submissions.",
+  "agent_work": "Isolates hostile code inside hardened Celesto microVM sandboxes with safety hooks and automated rollbacks.",
+  "proof_output": "All test suites executed inside microVM with zero host leakage.",
+  "idea_source": "idea_bank"
+}

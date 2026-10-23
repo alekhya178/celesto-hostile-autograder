@@ -1,0 +1,12 @@
+[
+  {
+    "id": "safety_hooks",
+    "why": "Safety hooks inspect, validate, and block potentially hostile shell commands such as destructive file operations and privilege escalation before execution inside microVMs.",
+    "evidence_path": "agent.py"
+  },
+  {
+    "id": "snapshots",
+    "why": "Snapshots enable rapid microVM state capture and instant deterministic rollback when untrusted code crashes, corrupts system dependencies, or fails execution steps.",
+    "evidence_path": "agent.py"
+  }
+]
