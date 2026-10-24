@@ -4,8 +4,25 @@
   "cleanup_on_interrupt": true,
   "sandbox_names": [
     "sbx-main0001",
-    "sbx-lifesucc",
-    "sbx-lifefail",
-    "sbx-lifeintr"
+    "sbx-rel00000001",
+    "sbx-rel00000002",
+    "sbx-rel00000003",
+    "sbx-rel00000004",
+    "sbx-rel00000005",
+    "sbx-rel00000006",
+    "sbx-rel00000007",
+    "sbx-rel00000008",
+    "sbx-rel00000009",
+    "sbx-rel00000010",
+    "sbx-rel00000011",
+    "sbx-rel00000012",
+    "sbx-rel00000013",
+    "sbx-rel00000014",
+    "sbx-rel00000015",
+    "sbx-rel00000016",
+    "sbx-rel00000017",
+    "sbx-rel00000018",
+    "sbx-rel00000019",
+    "sbx-rel00000020"
   ]
 }
