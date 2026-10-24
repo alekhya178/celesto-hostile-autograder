@@ -2,23 +2,23 @@
   "jobs": [
     {
       "sandbox_name": "sbx-conc0001",
-      "started_at": "2026-10-23T18:48:12.814620+00:00"
+      "started_at": "2026-10-24T08:22:10.841142+00:00"
     },
     {
       "sandbox_name": "sbx-conc0002",
-      "started_at": "2026-10-23T18:48:12.814620+00:00"
+      "started_at": "2026-10-24T08:22:10.841142+00:00"
     },
     {
       "sandbox_name": "sbx-conc0003",
-      "started_at": "2026-10-23T18:48:12.814620+00:00"
+      "started_at": "2026-10-24T08:22:10.841142+00:00"
     },
     {
       "sandbox_name": "sbx-conc0004",
-      "started_at": "2026-10-23T18:48:12.814620+00:00"
+      "started_at": "2026-10-24T08:22:10.841142+00:00"
     },
     {
       "sandbox_name": "sbx-conc0005",
-      "started_at": "2026-10-23T18:48:12.814620+00:00"
+      "started_at": "2026-10-24T08:22:10.841142+00:00"
     }
   ],
   "breakage_notes": "Observed CPU throttling and microVM initialization queue latency spikes when concurrent sandbox allocations exceeded memory bandwidth limits."
