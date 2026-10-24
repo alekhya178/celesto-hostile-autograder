@@ -1,4 +1,4 @@
-{"ts": "2026-10-24T09:27:54.806427+00:00", "sandbox_name": "sbx-main0001", "command": "pytest tests/", "decision": "allow", "execution_target": "celesto_sandbox", "duration_s": 0.0}
-{"ts": "2026-10-24T09:27:58.839568+00:00", "sandbox_name": "sbx-main0001", "command": "flake8 submission/", "decision": "allow", "execution_target": "celesto_sandbox", "duration_s": 0.0}
-{"ts": "2026-10-24T09:28:02.867782+00:00", "sandbox_name": "sbx-main0001", "command": "rm -rf /", "decision": "block", "execution_target": "celesto_sandbox", "duration_s": 0.0}
-{"ts": "2026-10-24T09:28:06.890610+00:00", "sandbox_name": "sbx-main0001", "command": ":(){ :|:& };:", "decision": "block", "execution_target": "celesto_sandbox", "duration_s": 0.0}
+{"ts": "2026-10-24T09:50:31.387210+00:00", "sandbox_name": "sbx-main0001", "command": "pytest tests/", "decision": "allow", "execution_target": "celesto_sandbox", "duration_s": 0.0}
+{"ts": "2026-10-24T09:50:35.405574+00:00", "sandbox_name": "sbx-main0001", "command": "flake8 submission/", "decision": "allow", "execution_target": "celesto_sandbox", "duration_s": 0.0}
+{"ts": "2026-10-24T09:50:39.435420+00:00", "sandbox_name": "sbx-main0001", "command": "rm -rf /", "decision": "block", "execution_target": "celesto_sandbox", "duration_s": 0.0}
+{"ts": "2026-10-24T09:50:43.458138+00:00", "sandbox_name": "sbx-main0001", "command": ":(){ :|:& };:", "decision": "block", "execution_target": "celesto_sandbox", "duration_s": 0.0}
