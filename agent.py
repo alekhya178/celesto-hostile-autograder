@@ -36,22 +36,29 @@ class CelestoCloudComputer:
         create_headers = dict(self.headers)
         create_headers["Idempotency-Key"] = str(uuid.uuid4())
         
-        res = requests.post(
-            f"{self.base_url}/computers",
-            headers=create_headers,
-            json={"name": self.name},
-            timeout=15
-        )
+        try:
+            res = requests.post(
+                f"{self.base_url}/computers",
+                headers=create_headers,
+                json={"name": self.name},
+                timeout=8
+            )
+        except Exception as ex:
+            raise RuntimeError(f"Celesto connection timeout: {ex}")
+
         if res.status_code in (200, 201):
             data = res.json()
             self.computer_id = data.get("id")
-            for _ in range(25):
-                status_res = requests.get(f"{self.base_url}/computers/{self.computer_id}", headers=self.headers, timeout=5)
-                if status_res.status_code == 200:
-                    status = status_res.json().get("status")
-                    if status in ("ready", "running"):
-                        break
-                time.sleep(1)
+            for _ in range(12):
+                try:
+                    status_res = requests.get(f"{self.base_url}/computers/{self.computer_id}", headers=self.headers, timeout=3)
+                    if status_res.status_code == 200:
+                        status = status_res.json().get("status")
+                        if status in ("ready", "running"):
+                            break
+                except Exception:
+                    pass
+                time.sleep(0.5)
         elif res.status_code == 429:
             raise RateLimitError("Celesto Cloud Trial rate limit reached (10 sandboxes/hr)")
         else:
@@ -61,15 +68,18 @@ class CelestoCloudComputer:
         if not self.computer_id:
             return {"exit_code": 0, "stdout": f"Simulated: {command}", "stderr": ""}
         
-        res = requests.post(
-            f"{self.base_url}/computers/{self.computer_id}/exec",
-            headers=self.headers,
-            json={"command": command},
-            timeout=30
-        )
-        if res.status_code == 200:
-            return res.json()
-        return {"exit_code": res.status_code, "stdout": "", "stderr": res.text}
+        try:
+            res = requests.post(
+                f"{self.base_url}/computers/{self.computer_id}/exec",
+                headers=self.headers,
+                json={"command": command},
+                timeout=10
+            )
+            if res.status_code == 200:
+                return res.json()
+            return {"exit_code": res.status_code, "stdout": "", "stderr": res.text}
+        except Exception as e:
+            return {"exit_code": 1, "stdout": "", "stderr": f"Exec timeout/error: {str(e)}"}
 
     def write_file(self, remote_path: str, content: str):
         cmd = f"cat << 'EOF' > {remote_path}\n{content}\nEOF"
@@ -78,7 +88,7 @@ class CelestoCloudComputer:
     def delete(self):
         if self.computer_id:
             try:
-                requests.delete(f"{self.base_url}/computers/{self.computer_id}", headers=self.headers, timeout=10)
+                requests.delete(f"{self.base_url}/computers/{self.computer_id}", headers=self.headers, timeout=5)
             except Exception:
                 pass
             self.computer_id = None

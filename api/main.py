@@ -11,6 +11,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from api.dashboard_template import get_html_content
 
 # Ensure environment is loaded
 from dotenv import load_dotenv
@@ -108,13 +109,16 @@ CANDIDATE_PATHS = [
 ]
 
 def load_dashboard_html() -> str:
-    for p in CANDIDATE_PATHS:
-        if os.path.exists(p):
-            try:
-                with open(p, "r", encoding="utf-8") as f:
-                    return f.read()
-            except Exception:
-                pass
+    try:
+        return get_html_content()
+    except Exception:
+        for p in CANDIDATE_PATHS:
+            if os.path.exists(p):
+                try:
+                    with open(p, "r", encoding="utf-8") as f:
+                        return f.read()
+                except Exception:
+                    pass
     return "<h1>Celesto Autograder Control Plane</h1><p>Dashboard loading...</p>"
 
 @app.get("/", response_class=HTMLResponse)
