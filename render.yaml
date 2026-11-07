@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: celesto-hostile-autograder
+    runtime: docker
+    plan: free
+    region: oregon
+    envVars:
+      - key: API_PORT
+        value: "8080"
+      - key: CELESTO_PROVIDER
+        value: cloud
+      - key: CELESTO_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: qwen/qwen3.8-27b
