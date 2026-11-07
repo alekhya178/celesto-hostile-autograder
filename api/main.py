@@ -96,17 +96,31 @@ def init_db():
 def on_startup():
     init_db()
 
-# Serve Frontend Static Assets
-STATIC_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static")
-if os.path.exists(STATIC_DIR):
-    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+# Candidate paths for index.html across local and Docker runtime
+CANDIDATE_PATHS = [
+    os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "static", "index.html"),
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "static", "index.html"),
+    os.path.join(os.getcwd(), "static", "index.html"),
+    os.path.join(os.getcwd(), "api", "static", "index.html"),
+    "/app/static/index.html",
+    "/app/api/static/index.html",
+    "static/index.html"
+]
+
+def load_dashboard_html() -> str:
+    for p in CANDIDATE_PATHS:
+        if os.path.exists(p):
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    return f.read()
+            except Exception:
+                pass
+    return "<h1>Celesto Autograder Control Plane</h1><p>Dashboard loading...</p>"
 
 @app.get("/", response_class=HTMLResponse)
+@app.get("/dashboard", response_class=HTMLResponse)
 def get_dashboard():
-    index_path = os.path.join(STATIC_DIR, "index.html")
-    if os.path.exists(index_path):
-        return FileResponse(index_path)
-    return HTMLResponse("<h1>Celesto Autograder Control Plane</h1><p>Visit /health or /api/runs</p>")
+    return HTMLResponse(content=load_dashboard_html(), status_code=200)
 
 @app.get("/health", status_code=status.HTTP_200_OK)
 @app.get("/healthz", status_code=status.HTTP_200_OK)
