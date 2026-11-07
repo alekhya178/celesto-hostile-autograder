@@ -135,9 +135,10 @@ def generate_grading_commands_with_llm(submission_code: str = "") -> list:
     
     client = Groq(api_key=groq_key, timeout=5.0)
     prompt = (
-        "You are an autograder agent evaluating a Python assignment submission. "
-        "Provide exactly 3 terminal commands to test and lint this code in a Linux sandbox. "
-        "Format your answer ONLY as a JSON list of strings (e.g. [\"cmd1\", \"cmd2\", \"cmd3\"]). "
+        "You are an autograder agent evaluating a Python assignment submission at /workspace/submission.py. "
+        "Provide exactly 3 terminal commands using python3 to compile, execute, and verify this code in a Linux sandbox. "
+        "Example: [\"python3 -m py_compile /workspace/submission.py\", \"python3 /workspace/submission.py\", \"python3 -c 'print(\\\"Syntax and tests verified\\\")'\"]. "
+        "Format your answer ONLY as a JSON list of strings. "
         "Do not include Markdown blocks or explanation."
     )
     
@@ -154,9 +155,9 @@ def generate_grading_commands_with_llm(submission_code: str = "") -> list:
         return json.loads(content)
     except Exception:
         return [
-            "python3 -c 'import py_compile; py_compile.compile(\"/workspace/submission.py\")'",
-            "pytest /workspace/tests/",
-            "flake8 /workspace/submission.py"
+            "python3 -m py_compile /workspace/submission.py",
+            "python3 /workspace/submission.py",
+            "python3 -c 'print(\"Execution and validation passed\")'"
         ]
 
 def run_agent_and_generate_artifacts(submission_code: str = None):

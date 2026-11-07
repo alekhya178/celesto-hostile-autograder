@@ -301,6 +301,7 @@ def grade_submission(req: GradeRequest):
         if computer:
             computer.run("mkdir -p /workspace")
             computer.write_file("/workspace/submission.py", req.code)
+            computer.write_file("/workspace/solution.py", req.code)
 
         # Generate LLM Testing Commands
         commands = generate_grading_commands_with_llm(req.code)
@@ -329,7 +330,13 @@ def grade_submission(req: GradeRequest):
             
             if decision == "allow":
                 if computer:
-                    res = computer.run(cmd)
+                    # Normalize command: ensure python3 is used and paths are in /workspace
+                    normalized_cmd = re.sub(r"\bpython\b", "python3", cmd)
+                    if "solution.py" in normalized_cmd and not "/workspace/" in normalized_cmd:
+                        normalized_cmd = normalized_cmd.replace("solution.py", "/workspace/solution.py")
+                    if "submission.py" in normalized_cmd and not "/workspace/" in normalized_cmd:
+                        normalized_cmd = normalized_cmd.replace("submission.py", "/workspace/submission.py")
+                    res = computer.run(normalized_cmd)
                     output = res.get("stdout", "") or res.get("stderr", "")
                     exit_code = res.get("exit_code", 0)
                 else:
