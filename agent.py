@@ -133,7 +133,7 @@ def generate_grading_commands_with_llm(submission_code: str = "") -> list:
     if not groq_key:
         return ["python3 -m py_compile /workspace/submission.py", "pytest /workspace/tests/", "flake8 /workspace/"]
     
-    client = Groq(api_key=groq_key)
+    client = Groq(api_key=groq_key, timeout=5.0)
     prompt = (
         "You are an autograder agent evaluating a Python assignment submission. "
         "Provide exactly 3 terminal commands to test and lint this code in a Linux sandbox. "

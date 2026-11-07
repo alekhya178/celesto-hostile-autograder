@@ -61,11 +61,19 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         content={"detail": exc.errors()},
     )
 
+_DB_AVAILABLE = None
+
 def get_db_connection():
+    global _DB_AVAILABLE
+    if _DB_AVAILABLE is False:
+        return None
     try:
         import psycopg2
-        return psycopg2.connect(DATABASE_URL, connect_timeout=2)
+        conn = psycopg2.connect(DATABASE_URL, connect_timeout=1)
+        _DB_AVAILABLE = True
+        return conn
     except Exception:
+        _DB_AVAILABLE = False
         return None
 
 def init_db():
