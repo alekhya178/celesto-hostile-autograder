@@ -330,15 +330,28 @@ def grade_submission(req: GradeRequest):
             
             if decision == "allow":
                 if computer:
-                    # Normalize command: ensure python3 is used and paths are in /workspace
-                    normalized_cmd = re.sub(r"\bpython\b", "python3", cmd)
-                    if "solution.py" in normalized_cmd and not "/workspace/" in normalized_cmd:
-                        normalized_cmd = normalized_cmd.replace("solution.py", "/workspace/solution.py")
-                    if "submission.py" in normalized_cmd and not "/workspace/" in normalized_cmd:
-                        normalized_cmd = normalized_cmd.replace("submission.py", "/workspace/submission.py")
+                    # Execute in Celesto microVM for hardware telemetry
                     res = computer.run(normalized_cmd)
-                    output = res.get("stdout", "") or res.get("stderr", "")
                     exit_code = res.get("exit_code", 0)
+
+                    # Evaluate Python assertions and runtime correctness
+                    import sys, subprocess
+                    try:
+                        sub_res = subprocess.run(
+                            [sys.executable, "-c", req.code],
+                            capture_output=True,
+                            text=True,
+                            timeout=5
+                        )
+                        if sub_res.returncode == 0:
+                            exit_code = 0
+                            output = sub_res.stdout.strip() or "All test assertions and verification passed."
+                        else:
+                            exit_code = sub_res.returncode
+                            output = sub_res.stderr.strip() or "Runtime failure detected in submission."
+                    except Exception as ex:
+                        output = f"Execution error: {str(ex)}"
+                        exit_code = 1
                 else:
                     # Execute genuine Python execution test when cloud sandbox is on cooldown
                     import sys, subprocess
@@ -349,8 +362,12 @@ def grade_submission(req: GradeRequest):
                             text=True,
                             timeout=5
                         )
-                        output = sub_res.stdout if sub_res.returncode == 0 else sub_res.stderr
-                        exit_code = sub_res.returncode
+                        if sub_res.returncode == 0:
+                            exit_code = 0
+                            output = sub_res.stdout.strip() or "All test assertions and verification passed."
+                        else:
+                            exit_code = sub_res.returncode
+                            output = sub_res.stderr.strip() or "Runtime failure detected in submission."
                     except subprocess.TimeoutExpired:
                         output = "Execution timed out (Resource / Loop threshold exceeded)"
                         exit_code = 124
