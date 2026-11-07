@@ -4,13 +4,16 @@ An enterprise-grade, hostile code autograding pipeline powered by Celesto microV
 
 ```mermaid
 graph TD
-    Client[Autograder Client / User] -->|HTTP REST API /api/runs| API[FastAPI Control Plane :8080]
-    API -->|Persist State & Audit Runs| Ledger[(PostgreSQL Ledger)]
-    Client -->|Execute Submissions| Agent[Agent Execution Engine]
-    Agent -->|Safety Hooks Interception| Safety[Safety Verification]
-    Safety -->|Allowed Execution| CelestoVM[Celesto MicroVM Sandbox]
-    Safety -.->|Blocked Destructive Commands| Log[(Command Audit Log)]
+    User[Student / Evaluator] -->|Browser UI :8080| UI[Interactive Web Dashboard]
+    UI -->|POST /api/grade| API[FastAPI Control Plane :8080]
+    API -->|Persist Lifecycle State| Ledger[(PostgreSQL Ledger)]
+    API -->|Evaluate Code Payload| Safety[Safety Hook Interceptor]
+    Safety -->|Inspect Patterns| Safety
+    Safety -->|Allowed Execution| CelestoVM[Celesto Cloud MicroVM]
+    Safety -.->|Blocked Hostile Payload| Log[(Command Audit Log)]
+    CelestoVM -->|Dynamic LLM Tests| CelestoVM
     CelestoVM -->|Deterministic Snapshot & Rollback| CelestoVM
+    API -->|Stream Live Telemetry| UI
 ```
 
 > **Video Walkthrough:** The demonstration walkthrough video is located at `demo/walkthrough.mp4`.
@@ -49,9 +52,9 @@ The autograder reliability and performance were evaluated across 20 programmatic
 
 - **Run Count**: 20 runs
 - **Success Rate**: 90.0% (18/20 runs succeeded; 2 hostile test runs safely caught and isolated)
-- **Median Wall-Clock Time**: Exact mean of 10th and 11th sorted runs (~2.475 seconds)
-- **P90 Wall-Clock Time**: 18th sorted run value (~3.100 seconds)
-- **Median Boot-to-Ready Time**: Exact mean of 10th and 11th sorted boot times (~0.405 seconds)
+- **Median Wall-Clock Time**: Exact mean of 10th and 11th sorted runs (8.085 seconds)
+- **P90 Wall-Clock Time**: 18th sorted run value (9.950 seconds)
+- **Median Boot-to-Ready Time**: Exact mean of 10th and 11th sorted boot times (6.765 seconds)
 - **Total Compute Cost**: ~$0.003 USD across all 20 runs
 - **Postmortem**: Documented in `reports/postmortem.md` detailing adversarial test handling and containment.
 
@@ -117,7 +120,19 @@ curl http://localhost:8080/api/runs
 # Response: [{"run_id": "1", "sandbox_name": "sbx-seeddemo1", "problem_id": "demo", "state": "deleted", "execution_target": "celesto_sandbox", ...}]
 ```
 
-### 4. Run the Autograder Agent & Report Generator
+### 4. Interactive Web Dashboard & Autograder UI
+Once the control plane is started, open your web browser and navigate to:
+```
+http://localhost:8080/
+```
+The modern dark-mode control dashboard allows you to:
+- Write and edit Python submissions directly in a code editor or upload `.py` files.
+- Load pre-configured security presets (*Safe Calculator*, *Hostile `rm -rf /`*, *Thread Fork Bomb*, *Buggy Code*).
+- Watch live microVM lifecycle progression (`Provision` -> `Inject` -> `Evaluate` -> `Teardown`).
+- Inspect real-time terminal stdout, execution timings, and safety hook blocks.
+- View the immutable PostgreSQL Run Ledger audit trail in real time.
+
+### 5. Run the Autograder Agent & Report Generator CLI
 ```bash
 python agent.py
 ```

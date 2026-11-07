@@ -8,7 +8,7 @@
     {
       "id": "snapshots",
       "why": "Snapshots enable rapid microVM state capture and instant deterministic rollback when untrusted code crashes, corrupts system dependencies, or fails execution steps.",
-      "evidence_path": "agent.py"
+      "evidence_path": "reports/failure_trace.jsonl"
     }
   ]
 }

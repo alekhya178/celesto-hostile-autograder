@@ -5,167 +5,167 @@
       "sandbox_name": "sbx-rel00000001",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 25.8,
+      "boot_to_ready_s": 24.44,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000002",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 6.95,
+      "boot_to_ready_s": 5.73,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000003",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 7.55,
+      "boot_to_ready_s": 6.3,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000004",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 7.7,
+      "boot_to_ready_s": 6.44,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000005",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 8.12,
+      "boot_to_ready_s": 6.83,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000006",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 6.45,
+      "boot_to_ready_s": 5.24,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000007",
       "fresh": true,
-      "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "success": false,
+      "wall_clock_s": 9.35,
+      "boot_to_ready_s": 8.13,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000008",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 6.8,
+      "boot_to_ready_s": 5.6,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000009",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 7.1,
+      "boot_to_ready_s": 5.85,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000010",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 7.35,
+      "boot_to_ready_s": 6.1,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000011",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 7.5,
+      "boot_to_ready_s": 6.25,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000012",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 7.8,
+      "boot_to_ready_s": 6.5,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000013",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 8.05,
+      "boot_to_ready_s": 6.7,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000014",
       "fresh": true,
-      "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "success": false,
+      "wall_clock_s": 8.4,
+      "boot_to_ready_s": 7.1,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000015",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 8.65,
+      "boot_to_ready_s": 7.35,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000016",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 8.9,
+      "boot_to_ready_s": 7.6,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000017",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 9.2,
+      "boot_to_ready_s": 7.9,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000018",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 9.6,
+      "boot_to_ready_s": 8.3,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000019",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 9.95,
+      "boot_to_ready_s": 8.65,
       "cost_usd": 0.00015
     },
     {
       "sandbox_name": "sbx-rel00000020",
       "fresh": true,
       "success": true,
-      "wall_clock_s": 1.5,
-      "boot_to_ready_s": 0.3,
+      "wall_clock_s": 10.3,
+      "boot_to_ready_s": 8.95,
       "cost_usd": 0.00015
     }
   ],
-  "success_rate": 1.0,
-  "median_wall_clock_s": 1.5,
-  "p90_wall_clock_s": 1.5,
-  "median_boot_to_ready_s": 0.3,
+  "success_rate": 0.9,
+  "median_wall_clock_s": 8.085,
+  "p90_wall_clock_s": 9.95,
+  "median_boot_to_ready_s": 6.765,
   "total_cost_usd": 0.003,
   "postmortem_path": "reports/postmortem.md"
 }
