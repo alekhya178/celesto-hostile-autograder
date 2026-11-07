@@ -109,6 +109,7 @@ def get_dashboard():
     return HTMLResponse("<h1>Celesto Autograder Control Plane</h1><p>Visit /health or /api/runs</p>")
 
 @app.get("/health", status_code=status.HTTP_200_OK)
+@app.get("/healthz", status_code=status.HTTP_200_OK)
 def health_check():
     return {"status": "ok"}
 
