@@ -3,6 +3,7 @@ import re
 import time
 import uuid
 import json
+import traceback
 from datetime import datetime, timezone
 from enum import Enum
 from typing import List, Optional
@@ -401,7 +402,7 @@ def grade_submission(req: GradeRequest):
         executed_commands.append({
             "command": "python3 /workspace/submission.py",
             "decision": "allow",
-            "output": f"Execution notice: {str(e)}",
+            "output": f"Execution notice: {traceback.format_exc()}",
             "exit_code": 1,
             "duration_s": 0.01
         })
