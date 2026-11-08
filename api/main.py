@@ -332,31 +332,40 @@ def grade_submission(req: GradeRequest):
             if decision == "allow":
                 if computer:
                     try:
-                        computer.run(cmd)
-                    except Exception:
-                        pass
-
-                # Evaluate Python assertions and runtime correctness
-                import sys, subprocess
-                try:
-                    sub_res = subprocess.run(
-                        [sys.executable, "-c", req.code],
-                        capture_output=True,
-                        text=True,
-                        timeout=5
-                    )
-                    if sub_res.returncode == 0:
-                        exit_code = 0
-                        output = sub_res.stdout.strip() or "All test assertions and verification passed."
+                        res = computer.run(cmd)
+                        exit_code = res.get("exit_code", 0)
+                        stdout = (res.get("stdout") or "").strip()
+                        stderr = (res.get("stderr") or "").strip()
+                        output = stdout or stderr or "Command executed successfully in microVM."
+                    except Exception as ex:
+                        output = f"MicroVM execution error: {str(ex)}"
+                        exit_code = 1
+                else:
+                    # Isolated fallback runner: NEVER run malicious exploits on host container
+                    if not is_malicious:
+                        import sys, subprocess
+                        try:
+                            sub_res = subprocess.run(
+                                [sys.executable, "-c", req.code],
+                                capture_output=True,
+                                text=True,
+                                timeout=5
+                            )
+                            if sub_res.returncode == 0:
+                                exit_code = 0
+                                output = sub_res.stdout.strip() or "All test assertions and verification passed."
+                            else:
+                                exit_code = sub_res.returncode
+                                output = sub_res.stderr.strip() or "Runtime failure detected in submission."
+                        except subprocess.TimeoutExpired:
+                            output = "Execution timed out (Resource / Loop threshold exceeded)"
+                            exit_code = 124
+                        except Exception as ex:
+                            output = f"Execution error: {str(ex)}"
+                            exit_code = 1
                     else:
-                        exit_code = sub_res.returncode
-                        output = sub_res.stderr.strip() or "Runtime failure detected in submission."
-                except subprocess.TimeoutExpired:
-                    output = "Execution timed out (Resource / Loop threshold exceeded)"
-                    exit_code = 124
-                except Exception as ex:
-                    output = f"Execution error: {str(ex)}"
-                    exit_code = 1
+                        exit_code = 1
+                        output = "Hostile execution blocked. Container protected."
 
                 if exit_code == 0:
                     passed_tests += 1
@@ -402,7 +411,7 @@ def grade_submission(req: GradeRequest):
         executed_commands.append({
             "command": "python3 /workspace/submission.py",
             "decision": "allow",
-            "output": f"Execution notice: {traceback.format_exc()}",
+            "output": f"Execution notice: {str(e)}",
             "exit_code": 1,
             "duration_s": 0.01
         })

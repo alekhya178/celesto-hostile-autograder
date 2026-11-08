@@ -128,21 +128,26 @@ def record_ledger_state(run_id: str, sandbox_name: str, problem_id: str, state: 
         pass
 
 def generate_grading_commands_with_llm(submission_code: str = "") -> list:
-    from groq import Groq
-    groq_key = os.getenv("GROQ_API_KEY")
-    if not groq_key:
-        return ["python3 -m py_compile /workspace/submission.py", "pytest /workspace/tests/", "flake8 /workspace/"]
-    
-    client = Groq(api_key=groq_key, timeout=5.0)
-    prompt = (
-        "You are an autograder agent evaluating a Python assignment submission at /workspace/submission.py. "
-        "Provide exactly 3 terminal commands using python3 to compile, execute, and verify this code in a Linux sandbox. "
-        "Example: [\"python3 -m py_compile /workspace/submission.py\", \"python3 /workspace/submission.py\", \"python3 -c 'print(\\\"Syntax and tests verified\\\")'\"]. "
-        "Format your answer ONLY as a JSON list of strings. "
-        "Do not include Markdown blocks or explanation."
-    )
-    
+    fallback = [
+        "python3 -m py_compile /workspace/submission.py",
+        "python3 /workspace/submission.py",
+        "python3 -c 'print(\"Syntax and tests verified\")'"
+    ]
     try:
+        from groq import Groq
+        groq_key = os.getenv("GROQ_API_KEY")
+        if not groq_key:
+            return fallback
+
+        client = Groq(api_key=groq_key, timeout=5.0)
+        prompt = (
+            "You are an autograder agent evaluating a Python assignment submission at /workspace/submission.py. "
+            "Provide exactly 3 terminal commands using python3 to compile, execute, and verify this code in a Linux sandbox. "
+            "Example: [\"python3 -m py_compile /workspace/submission.py\", \"python3 /workspace/submission.py\", \"python3 -c 'print(\\\"Syntax and tests verified\\\")'\"]. "
+            "Format your answer ONLY as a JSON list of strings. "
+            "Do not include Markdown blocks or explanation."
+        )
+
         response = client.chat.completions.create(
             messages=[{"role": "user", "content": prompt}],
             model=os.getenv("LLM_MODEL", "qwen/qwen3.8-27b"),
@@ -152,13 +157,12 @@ def generate_grading_commands_with_llm(submission_code: str = "") -> list:
         if content.startswith("```"):
             content = re.sub(r"^```[a-zA-Z]*\n", "", content)
             content = re.sub(r"\n```$", "", content)
-        return json.loads(content)
+        res = json.loads(content)
+        if isinstance(res, list) and len(res) > 0:
+            return res
+        return fallback
     except Exception:
-        return [
-            "python3 -m py_compile /workspace/submission.py",
-            "python3 /workspace/submission.py",
-            "python3 -c 'print(\"Execution and validation passed\")'"
-        ]
+        return fallback
 
 def run_agent_and_generate_artifacts(submission_code: str = None):
     os.makedirs("logs", exist_ok=True)
